@@ -1,6 +1,7 @@
 from mnist import MNIST
 import scipy.stats as stats
 import numpy as np
+import math
 import random
 
 def train(training_set, labels):
@@ -19,7 +20,8 @@ def train(training_set, labels):
     print(transformed.shape)
     cats = {i:[] for i in np.unique(labels)}
     for i, l in enumerate(labels):
-        cats[l].append(transformed[:,i])
+        #cats[l].append(transformed[:,i])
+        cats[l].append(data[i,:])
     norm_params = np.empty([3,len(cats)])
     for i, l in cats.items():
         norm_params[0,i] = np.mean(l)
@@ -27,10 +29,10 @@ def train(training_set, labels):
         norm_params[2,i] = len(l)
     print(norm_params)
     
-    for i in range(16):
+    for i in range(data.shape[1]):
         sample = random.randint(0,len(training_set))
         s_image = training_set[i]
-        ts_image = W.dot(np.transpose(s_image))
+        #ts_image = W.dot(np.transpose(s_image))
         s_label = labels[i]
         max_label = None
         max_prob = 0
@@ -39,7 +41,7 @@ def train(training_set, labels):
             c_sig = norm_params[1,c]
             c_siz = norm_params[2,c]
             n = stats.norm(c_mu,c_sig)
-            prob = c_siz/len(labels)*math.exp(np.sum([math.log(n.pdf(x)) for x in ts_image]))
+            prob = c_siz/len(labels)*math.exp(np.sum([math.log(n.pdf(x)) for x in s_image]))
             if prob > max_prob:
                 max_label = c
                 max_prob = prob

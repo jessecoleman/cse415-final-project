@@ -17,8 +17,6 @@ REPORTING = True
 
 def train(training_set, labels):
     global mean, std, size, cats
-    print(len(labels))
-    print(training_set.shape)
     # categories
     cats = {i:[] for i in np.unique(labels)}
     mean = np.empty([len(cats),training_set.shape[1]])
@@ -41,9 +39,8 @@ def joint_prob(x,mu,sigma,size):
         return math.log(1/(size*1000000000000))
 
 def test(testing_set, testing_labels):
+    # count number of correct predictions
     correct = 0
-    total = 0
-
     j_prob_v = np.vectorize(joint_prob)
     for i, s in enumerate(testing_set):
         s_image = s
@@ -68,13 +65,11 @@ def test(testing_set, testing_labels):
             pixels = np.array(images[i],dtype="uint8").reshape((28,28))
             plt.imshow(pixels,cmap='gray')
             plt.draw()
-            plt.pause(0.5)
+            plt.pause(0.01)
             print("Label: ",s_label)
             print("Predicted: ",max_label)
-        if s_label == max_label:
-            correct += 1
-        total += 1
-    print("accuracy: ",correct/total)
+        if s_label == max_label: correct += 1
+    print("accuracy: ",correct/len(testing_labels))
 
 def k_fold(data, labels, k_folds):
     fold_len = data.shape[0] // k_folds
@@ -99,7 +94,7 @@ def reduceDim(data, small):
     global W
     W = np.matrix([eig_pairs[i][1] for i in range(small)])
     transformed = W.dot(data.T)
-    return transformed.T
+    return transformed.T.real
  
 if __name__ == "__main__":
     mndata = MNIST('samples')

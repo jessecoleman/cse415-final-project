@@ -78,25 +78,40 @@ def recursive_split(x, y):
                 classifier[selected_attr][k] = split
     return res, classifier
 
-def classify(features, classifier, testcase):
+def classify(classifier, testcase):
+    # Check if it's an array
+    if isinstance(classifier, (list, np.ndarray)) and is_pure(classifier):
+        return classifier[0]
     # Runs on case to get which value to look at
-    for key in classifier:
-        value = testcase[key]
-        # Check if it's an array
-        if isinstance(classifier, (list, tuple, np.ndarray)) and is_pure(classifier):
-            return classifier[0]
+    for key in classifier.keys():
+        values = classifier[key]
+        # Find the closest previously seen value
+        value = min(values, key=lambda x: abs(x-testcase[key]))
+        print(key)
         if classifier:
-            return classify(features, classifier[key][testcase[key]], testcase)
+            return classify(classifier[key][value], testcase)
 
-X = np.array([x1, x2]).T
-res, classifier = recursive_split(X, y)
-print("res is ")
-pprint(res)
-print()
-# print("The classifier is ")
-# pprint(classifier)
-for i in range(len(X)):
-    print(classify(X, classifier, X[i]) == y[i])
+# PCA
+def reduceDim(data, small):
+    global W
+    cov_mat = np.cov(data, rowvar=False)
+    eig_val, eig_vec = np.linalg.eig(cov_mat)
+    eig_pairs = [(np.abs(eig_val[i]), eig_vec[:, i]) for i in range(len(eig_val))]
+    eig_pairs.sort(key=lambda x: x[0], reverse=True)
+    W = np.matrix([eig_pairs[i][1] for i in range(small)])
+    transformed = W.dot(data.T).T
+    return transformed.real
+
+# X = np.array([x1, x2]).T
+# res, classifier = recursive_split(X, y)
+# print("res is ")
+# pprint(res)
+# print()
+# # print("The classifier is ")
+# # pprint(classifier)
+# for i in range(len(X)):
+#     print(classify(classifier, X[i]) == y[i])
+# print(classify(classifier, [2, 1]) == 1)
 
 if __name__ == "__main__":
     # Load 2016-us-election data
@@ -108,10 +123,12 @@ if __name__ == "__main__":
 
     # Load MNIST data set
     # Images of size 28, 28
-    # mndata = MNIST('samples')
-    # images, labels = mndata.load_training()
-    # images_training = np.array(images[1:800])
-    # labels_training = np.array(labels[1:800])
-    # pprint(recursive_split(images_training, labels_training))
-    # print(labels_training[0])
+    mndata = MNIST('samples')
+    images, labels = mndata.load_training()
+    images_training = np.array(images[1:800])
+    labels_training = np.array(labels[1:800])
+    #images_training = reduceDim(images_training, 28)
+    res, classifier = recursive_split(images_training, labels_training)
+    print(classifier)
+    print(classify(classifier, images_training[1]) == labels_training[1])
     pass

@@ -21,6 +21,6 @@ if __name__ == '__main__':
     r_data = rep_results.ix[1:,3:rep_results.shape[1]-1]
     r_labels = rep_results.ix[1:,rep_results.shape[1]-1]
     nbc.REPORTING = False
-    nbc.k_fold(np.array(d_data), np.array(d_labels), 4)
+    nbc.k_fold(np.array(d_data), np.array(d_labels),4)
     nbc.k_fold(np.array(r_data), np.array(r_labels),4)
     

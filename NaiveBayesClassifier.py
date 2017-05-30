@@ -1,3 +1,8 @@
+# Cole Chamberlin, Ishan Saksena
+# Naive Bayes Classifier
+# CSE415, Final Project
+# Spring 2017
+
 from mnist import MNIST
 import scipy.stats as stats
 import numpy as np
@@ -110,7 +115,7 @@ def joint_prob(x,mu,sigma,size):
     except:
         return math.log(1/(size*1000000000000))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     MNIST = True
     mndata = MNIST('samples')
     images, labels = mndata.load_training()

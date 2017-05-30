@@ -46,7 +46,7 @@ def is_pure(s):
 def recursive_split(x, y):
     # If there could be no split, just return the original set
     if is_pure(y) or len(y) == 0:
-        return y, y
+        return y
 
     # We get attribute that gives the highest mutual information
     gain = np.array([mutual_information(y, x_attr) for x_attr in x.T])
@@ -54,13 +54,12 @@ def recursive_split(x, y):
 
     # If there's no gain at all, nothing has to be done, just return the original set
     if np.all(gain < 1e-6):
-        return y, y
+        return y
 
 
     # We split using the selected attribute
     sets = partition(x[:, selected_attr])
 
-    res = {}
     classifier = {}
     for k, v in sets.items():
         y_subset = y.take(v, axis=0)
@@ -68,13 +67,12 @@ def recursive_split(x, y):
 
         # Comment out string part, keep only tuple to traverse
         #
-        split, subclassifier = recursive_split(x_subset, y_subset)
-        res["x_%d = %d" % (selected_attr, k)] = split
+        subclassifier = recursive_split(x_subset, y_subset)
         if selected_attr not in classifier:
-            classifier[selected_attr] = {k: split}
+            classifier[selected_attr] = {k: subclassifier}
         else:
             classifier[selected_attr][k] = subclassifier
-    return res, classifier
+    return classifier
 
 def classify(classifier, testcase):
     # Check if it's an array
@@ -101,14 +99,25 @@ def reduceDim(data, small):
     return transformed.real
 
 # X = np.array([x1, x2, x3]).T
-# res, classifier = recursive_split(X, y)
-# # print("res is ")
-# # pprint(res)
-# # print()
+# classifier = recursive_split(X, y)
+# print()
 # print("The classifier is ")
 # pprint(classifier)
 # for i in range(len(X)):
-#     pprint(classify(classifier, X[i]) == y[i])
+#      pprint(classify(classifier, X[i]) == y[i])
+
+def test(features, labels, clf):
+    totalCorrect = 0
+    for indexToTest in range(len(features)):
+        # print("Predicted")
+        # print(clf.predict(features[indexToTest]))
+        # print("Actual")
+        # print(labels[indexToTest])
+        # print()
+        resultCorrect = clf.predict(features[indexToTest]) == labels[indexToTest]
+        if resultCorrect:
+            totalCorrect += 1
+    print(float(totalCorrect) / float(len(features)) )
 
 if __name__ == "__main__":
     # Load 2016-us-election data
@@ -125,7 +134,7 @@ if __name__ == "__main__":
     images_training = np.array(images[0:1000])
     labels_training = np.array(labels[0:1000])
     #images_training = reduceDim(images_training, 28)
-    res, classifier = recursive_split(images_training, labels_training)
+    classifier = recursive_split(images_training, labels_training)
     pprint(classifier)
-    #print(classify(classifier, images_training[1]) == labels_training[1])
+    print(classify(classifier, images_training[1]) == labels_training[1])
     pass

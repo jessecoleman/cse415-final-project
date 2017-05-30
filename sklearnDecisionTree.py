@@ -10,11 +10,6 @@ def train(features, labels):
 def test(features, labels, clf):
     totalCorrect = 0
     for indexToTest in range(len(features)):
-        # print("Predicted")
-        # print(clf.predict(features[indexToTest]))
-        # print("Actual")
-        # print(labels[indexToTest])
-        # print()
         resultCorrect = clf.predict(features[indexToTest]) == labels[indexToTest]
         if resultCorrect:
             totalCorrect += 1

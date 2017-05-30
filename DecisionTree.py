@@ -11,6 +11,7 @@ from pprint import pprint
 
 x1 = [0, 1, 1, 2, 2, 2]
 x2 = [0, 0, 1, 1, 1, 0]
+x3 = [0, 0, 3, 4, 5, 0]
 y = np.array([0, 0, 0, 1, 1, 0])
 
 def entropy(s):
@@ -45,7 +46,7 @@ def is_pure(s):
 def recursive_split(x, y):
     # If there could be no split, just return the original set
     if is_pure(y) or len(y) == 0:
-        return y, {}
+        return y, y
 
     # We get attribute that gives the highest mutual information
     gain = np.array([mutual_information(y, x_attr) for x_attr in x.T])
@@ -53,7 +54,7 @@ def recursive_split(x, y):
 
     # If there's no gain at all, nothing has to be done, just return the original set
     if np.all(gain < 1e-6):
-        return y, {}
+        return y, y
 
 
     # We split using the selected attribute
@@ -72,10 +73,7 @@ def recursive_split(x, y):
         if selected_attr not in classifier:
             classifier[selected_attr] = {k: split}
         else:
-            if subclassifier:
-                classifier[selected_attr][k] = subclassifier
-            else:
-                classifier[selected_attr][k] = split
+            classifier[selected_attr][k] = subclassifier
     return res, classifier
 
 def classify(classifier, testcase):
@@ -102,16 +100,15 @@ def reduceDim(data, small):
     transformed = W.dot(data.T).T
     return transformed.real
 
-# X = np.array([x1, x2]).T
+# X = np.array([x1, x2, x3]).T
 # res, classifier = recursive_split(X, y)
-# print("res is ")
-# pprint(res)
-# print()
-# # print("The classifier is ")
-# # pprint(classifier)
+# # print("res is ")
+# # pprint(res)
+# # print()
+# print("The classifier is ")
+# pprint(classifier)
 # for i in range(len(X)):
-#     print(classify(classifier, X[i]) == y[i])
-# print(classify(classifier, [2, 1]) == 1)
+#     pprint(classify(classifier, X[i]) == y[i])
 
 if __name__ == "__main__":
     # Load 2016-us-election data
@@ -125,10 +122,10 @@ if __name__ == "__main__":
     # Images of size 28, 28
     mndata = MNIST('samples')
     images, labels = mndata.load_training()
-    images_training = np.array(images[1:800])
-    labels_training = np.array(labels[1:800])
+    images_training = np.array(images[0:1000])
+    labels_training = np.array(labels[0:1000])
     #images_training = reduceDim(images_training, 28)
     res, classifier = recursive_split(images_training, labels_training)
-    print(classifier)
-    print(classify(classifier, images_training[1]) == labels_training[1])
+    pprint(classifier)
+    #print(classify(classifier, images_training[1]) == labels_training[1])
     pass

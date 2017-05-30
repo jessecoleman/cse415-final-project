@@ -54,7 +54,6 @@ class DecisionTree:
         gain = np.array([self.information_gain(y, x_attr) for x_attr in x.T])
         selected_attr = np.argmax(gain)
 
-        print(gain)
         # Return selection if no gain
         if np.all(gain < 1e-6):
         # if np.all(gain < 0.5):
@@ -111,7 +110,7 @@ def reduceDim(data, small):
     global W
     cov_mat = np.cov(data, rowvar=False)
     eig_val, eig_vec = np.linalg.eig(cov_mat)
-    eig_pairs = [(np.abs(eig_val[i]), eig_vec[:, i]) for i in range(len(eig_val))]
+    eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
     eig_pairs.sort(key=lambda x: x[0], reverse=True)
     W = np.matrix([eig_pairs[i][1] for i in range(small)])
     transformed = W.dot(data.T).T
@@ -131,45 +130,45 @@ if __name__ == "__main__":
     #     for row in spamreader:
     #         print(', '.join(row))
 
+    #
+    # Load MNIST data set
+    # Images of size 28, 28
+    #
+    mndata = MNIST('samples')
+    images, labels = mndata.load_training()
+    images = np.array(images)
+    labels = np.array(labels)
+
+    images = reduceDim(images, 28)
+
+    indicesToTrain = 500
+    indicesToTestUntil = 600
+    images_training = images[0:indicesToTrain]
+    labels_training = labels[0:indicesToTrain]
+
+    images_testing = images[indicesToTrain:indicesToTestUntil]
+    labels_testing = labels[indicesToTrain:indicesToTestUntil]
+
+    classifier = dt.recursive_split(images_training, labels_training)
+    #pprint(classifier)
+    #print(classify(classifier, images_training[1]) == labels_training[1])
+    dt.test(images_testing, labels_testing, classifier)
+
+
     # #
-    # # Load MNIST data set
-    # # Images of size 28, 28
+    # # Original example
     # #
-    # mndata = MNIST('samples')
-    # images, labels = mndata.load_training()
-    # images = np.array(images)
-    # labels = np.array(labels)
+    # x1 = [0, 1, 1, 2, 2, 2]
+    # x2 = [0, 0, 1, 1, 1, 0]
+    # x3 = [0, 0, 3, 4, 5, 0]
+    # y = np.array([0, 0, 0, 1, 1, 0])
     #
-    # #images = reduceDim(images, 28)
-    #
-    # indicesToTrain = 500
-    # indicesToTestUntil = 600
-    # images_training = images[0:indicesToTrain]
-    # labels_training = labels[0:indicesToTrain]
-    #
-    # images_testing = images[indicesToTrain:indicesToTestUntil]
-    # labels_testing = labels[indicesToTrain:indicesToTestUntil]
-    #
-    # classifier = dt.recursive_split(images_training, labels_training)
-    # #pprint(classifier)
-    # #print(classify(classifier, images_training[1]) == labels_training[1])
-    # dt.test(images_testing, labels_testing, classifier)
-
-
-    #
-    # Original example
-    #
-    x1 = [0, 1, 1, 2, 2, 2]
-    x2 = [0, 0, 1, 1, 1, 0]
-    x3 = [0, 0, 3, 4, 5, 0]
-    y = np.array([0, 0, 0, 1, 1, 0])
-
-    X = np.array([x1, x2, x3]).T
-    classifier = dt.recursive_split(X, y)
-    print()
-    print("The classifier is ")
-    pprint(classifier)
-    for i in range(len(X)):
-         pprint(dt.classify(classifier, X[i]) == y[i])
+    # X = np.array([x1, x2, x3]).T
+    # classifier = dt.recursive_split(X, y)
+    # print()
+    # print("The classifier is ")
+    # pprint(classifier)
+    # for i in range(len(X)):
+    #      pprint(dt.classify(classifier, X[i]) == y[i])
 
     pass

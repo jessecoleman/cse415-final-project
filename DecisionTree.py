@@ -102,10 +102,17 @@ def reduceDim(data, small):
 def test(features, labels, clf):
     totalCorrect = 0
     for indexToTest in range(len(features)):
-        resultCorrect = clf.predict(features[indexToTest]) == labels[indexToTest]
+        resultCorrect = classify(classifier, features[indexToTest]) == labels[indexToTest]
         if resultCorrect:
             totalCorrect += 1
+
+    # Report Results
+    print("Percent Correct: ", end = " ")
     print(float(totalCorrect) / float(len(features)) )
+    print("Total Correct: ", end=" ")
+    print(totalCorrect)
+    print("Total Tested ", end=" ")
+    print(len(features))
 
 if __name__ == "__main__":
     # #
@@ -117,39 +124,45 @@ if __name__ == "__main__":
     #     for row in spamreader:
     #         print(', '.join(row))
 
+    #
+    # Load MNIST data set
+    # Images of size 28, 28
+    #
+    mndata = MNIST('samples')
+    images, labels = mndata.load_training()
+    images = np.array(images)
+    labels = np.array(labels)
+
+    #images = reduceDim(images, 28)
+
+    indicesToTrain = 5000
+    indicesToTestUntil = 6000
+    images_training = images[0:indicesToTrain]
+    labels_training = labels[0:indicesToTrain]
+
+    images_testing = images[indicesToTrain:indicesToTestUntil]
+    labels_testing = labels[indicesToTrain:indicesToTestUntil]
+
+    classifier = recursive_split(images_training, labels_training)
+    #pprint(classifier)
+    #print(classify(classifier, images_training[1]) == labels_training[1])
+    test(images_testing, labels_testing, classifier)
+
+
     # #
-    # # Load MNIST data set
-    # # Images of size 28, 28
+    # # Original example
     # #
-    # mndata = MNIST('samples')
-    # images, labels = mndata.load_training()
-    # images = np.array(images)
-    # labels = np.array(labels)
+    # x1 = [0, 1, 1, 2, 2, 2]
+    # x2 = [0, 0, 1, 1, 1, 0]
+    # x3 = [0, 0, 3, 4, 5, 0]
+    # y = np.array([0, 0, 0, 1, 1, 0])
     #
-    # #images = reduceDim(images, 28)
-    #
-    # indicesToTrain = 1000
-    # images_training = images[0:indicesToTrain]
-    # labels_training = labels[0:indicesToTrain]
-    #
-    # classifier = recursive_split(images_training, labels_training)
+    # X = np.array([x1, x2, x3]).T
+    # classifier = recursive_split(X, y)
+    # print()
+    # print("The classifier is ")
     # pprint(classifier)
-    # print(classify(classifier, images_training[1]) == labels_training[1])
-
-    #
-    # Original example
-    #
-    x1 = [0, 1, 1, 2, 2, 2]
-    x2 = [0, 0, 1, 1, 1, 0]
-    x3 = [0, 0, 3, 4, 5, 0]
-    y = np.array([0, 0, 0, 1, 1, 0])
-
-    X = np.array([x1, x2, x3]).T
-    classifier = recursive_split(X, y)
-    print()
-    print("The classifier is ")
-    pprint(classifier)
-    for i in range(len(X)):
-         pprint(classify(classifier, X[i]) == y[i])
+    # for i in range(len(X)):
+    #      pprint(classify(classifier, X[i]) == y[i])
 
     pass

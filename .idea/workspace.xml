@@ -4,6 +4,8 @@
     <list default="true" id="bb7a90be-3d08-43b6-aab1-59b1849d3c37" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DecisionTree.py" afterPath="$PROJECT_DIR$/DecisionTree.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NaiveBayesClassifier.py" afterPath="$PROJECT_DIR$/NaiveBayesClassifier.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sklearnDecisionTree.py" afterPath="$PROJECT_DIR$/sklearnDecisionTree.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,10 +31,10 @@
       <file leaf-file-name="sklearnDecisionTree.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sklearnDecisionTree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="55" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
+            <state relative-caret-position="360">
+              <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
               <folding>
-                <element signature="e#0#24#0" expanded="true" />
+                <element signature="e#137#161#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -41,10 +43,10 @@
       <file leaf-file-name="DecisionTree.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DecisionTree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="909">
-              <caret line="133" column="48" selection-start-line="133" selection-start-column="48" selection-end-line="133" selection-end-column="48" />
+            <state relative-caret-position="429">
+              <caret line="86" column="63" selection-start-line="86" selection-start-column="63" selection-end-line="86" selection-end-column="63" />
               <folding>
-                <element signature="e#82#92#0" expanded="true" />
+                <element signature="e#99#109#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,10 +65,10 @@
       <file leaf-file-name="NaiveBayesClassifier.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NaiveBayesClassifier.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+            <state relative-caret-position="15">
+              <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#97#120#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -94,6 +96,7 @@
       <list>
         <option value="$PROJECT_DIR$/samples/DecisionTree.py" />
         <option value="$PROJECT_DIR$/DecisionTreeGini.py" />
+        <option value="$PROJECT_DIR$/NaiveBayesClassifier.py" />
         <option value="$PROJECT_DIR$/sklearnDecisionTree.py" />
         <option value="$PROJECT_DIR$/DecisionTree.py" />
       </list>
@@ -444,7 +447,7 @@
         <state relative-caret-position="60">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#137#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -454,7 +457,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#82#92#0" expanded="true" />
+            <element signature="e#99#109#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -472,7 +475,7 @@
         <state relative-caret-position="1260">
           <caret line="88" column="53" selection-start-line="88" selection-start-column="53" selection-end-line="88" selection-end-column="53" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#97#120#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -495,30 +498,30 @@
     <entry file="file://$PROJECT_DIR$/DecisionTreeGini.py" />
     <entry file="file://$PROJECT_DIR$/NaiveBayesClassifier.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="49" column="26" selection-start-line="49" selection-start-column="26" selection-end-line="49" selection-end-column="26" />
+        <state relative-caret-position="15">
+          <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#97#120#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sklearnDecisionTree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="55" selection-start-line="22" selection-start-column="55" selection-end-line="22" selection-end-column="55" />
+        <state relative-caret-position="360">
+          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#137#161#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DecisionTree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="909">
-          <caret line="133" column="48" selection-start-line="133" selection-start-column="48" selection-end-line="133" selection-end-column="48" />
+        <state relative-caret-position="429">
+          <caret line="86" column="63" selection-start-line="86" selection-start-column="63" selection-end-line="86" selection-end-column="63" />
           <folding>
-            <element signature="e#82#92#0" expanded="true" />
+            <element signature="e#99#109#0" expanded="true" />
           </folding>
         </state>
       </provider>

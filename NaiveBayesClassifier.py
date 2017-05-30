@@ -1,3 +1,8 @@
+# Cole Chamberlin, Ishan Saksena
+# Naive Bayes Classifier
+# CSE415, Final Project
+# Spring 2017
+
 from mnist import MNIST
 import scipy.stats as stats
 import numpy as np
@@ -99,7 +104,8 @@ def reduceDim(data, small):
     W = np.matrix([eig_pairs[i][1] for i in range(small)])
     transformed = W.dot(data.T).T
     return transformed.real
- 
+
+
 if __name__ == "__main__":
     MNIST = True
     mndata = MNIST('samples')

@@ -1,3 +1,10 @@
+# Cole Chamberlin, Ishan Saksena
+# Decision Tree Classifier from sci kit learn
+# CSE415, Final Project
+# Spring 2017
+
+# Validation only
+
 from sklearn import tree
 import numpy as np
 from mnist import MNIST

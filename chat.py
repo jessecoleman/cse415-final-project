@@ -9,10 +9,17 @@ import DecisionTree as dt
 if __name__ == "__main__":
     # Parameters for classification
     dataset_choice = input("What dataset do you want to use? [Breast Cancer (b) / Handwritten digits (h)]")
-    #dataset =
+    if dataset_choice == "b":
+        # training_data, training_labels, testing_data, testing_labels = get_data()
+        pass
+    else:
+        # training_data, training_labels, testing_data, testing_labels = get_data()
+        pass
 
     classifier_choice = input("What kind of classifier do you want to use? [Naive bayes (n) / Decision Tree (d)]")
-    #classifier =
+    if classifier_choice == "n":
+        #classifier =
+        pass
 
     # TODO: Print dimensions
     print("The current dimensions of the data set are: ")

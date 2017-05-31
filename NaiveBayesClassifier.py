@@ -100,7 +100,7 @@ def k_fold(data, labels, k_folds, dim_red=False):
 
 def reduceDim(data, small=None):
     global W
-    if small == None:
+    if small != None:
         cov_mat = np.cov(data, rowvar=False)
         eig_val, eig_vec = np.linalg.eig(cov_mat)
         eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]

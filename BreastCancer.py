@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from NaiveBayesClassifier import NaiveBayesClassifier as nbc
 from DecisionTree import DecisionTree as dt
-<<<<<<< HEAD
 
 W = None
 

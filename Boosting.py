@@ -9,7 +9,7 @@ CLS = dt
 W = None
 
 def boost(training_set, testing_set, training_labels, testing_labels, num_learners):
-    CLS.REPORTING = False
+    #CLS.REPORTING = False
     ensemble = []
     w = [1] * len(training_set)
     idx = list(range(len(training_set)))
@@ -19,17 +19,17 @@ def boost(training_set, testing_set, training_labels, testing_labels, num_learne
         s = random.choices(idx, weights=w, k=int(len(training_set)*0.6))
         sample_set = np.array([training_set[j] for j in s])
         sample_labels = np.array([training_labels[j] for j in s])
-        sample_set = reduceDim(sample_set, 28)
-        red_training_set = reduceDim(training_set)
+        #sample_set = reduceDim(sample_set, 28)
+        #red_training_set = reduceDim(training_set)
         ensemble[i].train(sample_set, sample_labels)
-        r, w = ensemble[i].test(red_training_set, training_labels)
+        r, w = ensemble[i].test(training_set, training_labels)
         print(w)
 
-    red_testing_set = reduceDim(testing_set)
+    #red_testing_set = reduceDim(testing_set)
     CLS.REPORTING = True
     results = []
     for i,n in enumerate(ensemble):
-        results.append(n.test(red_testing_set, testing_labels)[0])
+        results.append(n.test(testing_set, testing_labels)[0])
     results = np.array(results).T
     print(results.shape)
     correct = 0

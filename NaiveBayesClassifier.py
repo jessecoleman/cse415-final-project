@@ -40,8 +40,8 @@ class NaiveBayesClassifier:
     def test(self, testing_set, testing_labels):
         # count number of correct predictions
         correct = 0
-        w = [1] * len(testing_set)
-        r = [None] * len(testing_set)
+        w = []
+        r = []
         j_prob_v = np.vectorize(joint_prob)
         for i, e in enumerate(testing_set):
             s_label = testing_labels[i]
@@ -62,11 +62,12 @@ class NaiveBayesClassifier:
                     max_label = c
                     max_prob = prob
             # if prediction was correct
-            r[i] = max_label
+            r.append(max_label)
             if s_label == max_label: 
                 correct += 1
+                w.append(1)
             else:
-                w[i] = 1.5
+                w.append(1.5)
             if DISP_MNIST:
                 plt.title("Label is "+s_label+", Predicted "+max_label)
                 pixels = np.array(images[i],dtype="uint8").reshape((28,28))

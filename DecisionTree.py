@@ -106,7 +106,7 @@ class DecisionTree:
                 w.append(1.5)
 
         # Report Results
-        print("Percent Correct:",totalCorrect/(len(features))
+        print("Percent Correct:",totalCorrect/(len(features)))
         print("Total Correct:",totalCorrect)
         print("Total Tested ",len(features))
         return r, w

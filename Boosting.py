@@ -12,7 +12,7 @@ import random
 
 CLS = dt
 
-def boost(training_set, testing_set, training_labels, testing_labels, num_learners):
+def boost(training_set, training_labels, testing_set, testing_labels, num_learners):
     #CLS.REPORTING = False
     ensemble = []
     w = [1] * len(training_set)
@@ -48,5 +48,3 @@ if __name__ == '__main__':
     pass 
     #mndata = MNIST('samples')
     #images, labels = mndata.load_training()
-    #boost(np.array(images[:400]), np.array(images[400:500]), np.array(labels[:400]), \
-    #        np.array(labels[400:500]), 3)

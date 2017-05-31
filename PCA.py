@@ -22,7 +22,7 @@ def reduceDim(data, small=None):
 
 def trainTestSplit(data, labels, split):
     mask = np.ones(data.shape[0], dtype=bool)
-    for i in range(int(data.shape[0]*(1-split)):
+    for i in range(int(data.shape[0]*(1-split))):
         mask[i] = 0
     np.random.shuffle(mask)
     training_data = data[mask]

@@ -3,33 +3,39 @@
 # CSE415, Final Project
 # Spring 2017
 
-import NaiveBayesClassifier as nb
-import DecisionTree as dt
+from NaiveBayesClassifier import NaiveBayesClassifier as nb
+from DecisionTree import DecisionTree as dt
+import mnist_data
+import BreastCancer
+import PCA
+import Boosting
 
 if __name__ == "__main__":
     # Parameters for classification
-    dataset_choice = input("What dataset do you want to use? [Breast Cancer (b) / Handwritten digits (h)]")
+    dataset_choice = input("What dataset do you want to use? [Breast Cancer (b) / Handwritten digits (h)] ")
     if dataset_choice == "b":
-        # training_data, training_labels, testing_data, testing_labels = get_data()
-        pass
+        training_data, training_labels, testing_data, testing_labels = BreastCancer.get_data()
     else:
-        # training_data, training_labels, testing_data, testing_labels = get_data()
-        pass
+        training_data, training_labels, testing_data, testing_labels = mnist_data.get_data()
 
-    classifier_choice = input("What kind of classifier do you want to use? [Naive bayes (n) / Decision Tree (d)]")
+    classifier_choice = input("What kind of classifier do you want to use? [Naive bayes (n) / Decision Tree (d)] ")
     if classifier_choice == "n":
-        #classifier =
-        pass
+        classifier = nb()
+    else:
+        classifier = dt()
 
-    # TODO: Print dimensions
-    print("The current dimensions of the data set are: ")
-    dimension_reduction = input("Would you like to use dimension reduction? [y / n]")
+    print("The current dimensions of the data set are:", training_data.shape[1])
+    dimension_reduction = input("Would you like to use dimension reduction? [y / n] ")
     if dimension_reduction == "y":
-        # reduce dimensions
-        pass
+        dim = input("Pick a new dimension smaller than the current one ")
+        PCA.reduceDim(training_data, dim)
+        PCA.reduceDim(testing_data)
 
-    boosting = input("Would you like to use boosting? [y / n]")
+    boosting = input("Would you like to use boosting? [y / n] ")
     if boosting == "y":
-        learners = input("How many learners would you like to use? [3 - 10]")
-
-    # Classify input
+        Boosting.CLS = classifier
+        learners = input("How many learners would you like to use? [3 - 10] ")
+        Boosting.boost(training_data, training_labels, testing_data, testing_labels,learners)
+    else:
+        classifier.train(training_data, training_labels)
+        classifier.test(testing_data, testing_labels)

@@ -18,7 +18,7 @@ def boost(training_set, training_labels, testing_set, testing_labels, num_learne
     idx = list(range(len(training_set)))
     print(idx)
     for i in range(num_learners):
-        print("i:",i)
+        # alternate classifiers
         if i % 2 == 0:
             ensemble.append(dt())
         else:
@@ -27,7 +27,6 @@ def boost(training_set, training_labels, testing_set, testing_labels, num_learne
         s = random.choices(idx, weights=w, k=int(len(training_set)*0.6))
         sample_set = np.array([training_set[j] for j in s])
         sample_labels = np.array([training_labels[j] for j in s])
-        print(sample_set)
         # train learner with sample
         ensemble[i].train(sample_set, sample_labels)
         # test learner with entire training set
@@ -47,6 +46,7 @@ def boost(training_set, training_labels, testing_set, testing_labels, num_learne
         print("Predicted:",pred)
         if testing_labels[r] == pred: correct += 1
     
+    # display results
     print("Accuracy:",correct/(len(testing_set)))
     print("Total correct:",correct)
     print("Total tested ",len(testing_set))
@@ -58,5 +58,3 @@ if __name__ == '__main__':
     d.train(training_set, training_labels)
     d.test(testing_set, testing_labels)
     boost(training_set, training_labels, testing_set, testing_labels, 1)
-    #mndata = MNIST('samples')
-    #images, labels = mndata.load_training()

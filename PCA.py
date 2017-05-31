@@ -45,7 +45,3 @@ def k_fold(data, labels, k_folds, dim_red=False):
             testing_set = reduceDim(testing_set)
         train(training_set, training_labels)
         test(testing_set, testing_labels)
-
-
-
-

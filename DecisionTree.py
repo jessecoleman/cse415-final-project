@@ -10,6 +10,7 @@ class DecisionTree:
 
     def __init__(self):
         self.reporting = False
+        self.disp_mnist = False
         self.classifier = {}
         self.images = None
 
@@ -123,7 +124,3 @@ class DecisionTree:
         print("Total correct:",totalCorrect)
         print("Total tested ",len(features))
         return r, w
-
-# Run the classifier with different data sets
-if __name__ == "__main__":
-    pass

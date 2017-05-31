@@ -20,18 +20,15 @@ def get_data():
     return PCA.trainTestSplit(data,labels,.8)
 
 if __name__ == '__main__':
-    # classifier 1
-    c1 = nbc()
     training_data, testing_data, training_labels, testing_labels = get_data()
-    Boosting.boost(training_data, testing_data, training_labels, testing_labels, 8)
-    exit()
-
-    PCA.reduceDim(training_data, 12)
-    PCA.reduceDim(testing_data)
+    # Decision Tree classifier
+    c1 = dt()
     c1.train(training_data, training_labels)
     c1.test(testing_data, testing_labels)
-    # classifier 2
-    c2 = dt()
+    # Naive Bayes Classifier
+    c2 = nbc()
+    PCA.reduceDim(training_data, 12)
+    PCA.reduceDim(testing_data)
     c2.train(training_data, training_labels)
     c2.test(testing_data, testing_labels)
 

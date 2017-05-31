@@ -3,6 +3,8 @@
 # CSE415, Final Project
 # Spring 2017
 
+# data taken from http://yann.lecun.com/exdb/mnist/
+
 from mnist import MNIST
 import numpy as np
 from NaiveBayesClassifier import NaiveBayesClassifier as nbc

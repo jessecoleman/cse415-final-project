@@ -3,13 +3,13 @@
 # CSE415, Final Project
 # Spring 2017
 
-#from mnist import MNIST
+from mnist import MNIST
 import scipy.stats as stats
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-MNIST = False
+DISP_MNIST = False
 REPORTING = True
 W = None
 
@@ -67,7 +67,7 @@ class NaiveBayesClassifier:
                 correct += 1
             else:
                 w[i] = 1.5
-            if MNIST:
+            if DISP_MNIST:
                 plt.title("Label is "+s_label+", Predicted "+max_label)
                 pixels = np.array(images[i],dtype="uint8").reshape((28,28))
                 plt.imshow(pixels,cmap='gray')
@@ -94,7 +94,7 @@ def k_fold(data, labels, k_folds, dim_red=False):
         # reduce dimension
         if dim_red > 0:
             training_set = reduceDim(training_set, dim_red)
-            testing_set = W.dot(testing_set.T).T.real
+            testing_set = reduceDim(testing_set)
         train(training_set, training_labels)
         test(testing_set, testing_labels)
 
@@ -106,8 +106,7 @@ def reduceDim(data, small=None):
         eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
         eig_pairs.sort(key=lambda x: x[0], reverse=True)
         W = np.matrix([eig_pairs[i][1] for i in range(small)])
-    transformed = W.dot(data.T).T
-    return transformed.real
+    return W.dot(data.T).T.real
 
 def joint_prob(x,mu,sigma,size):
     if sigma==0 and mu==x: return 0.0
@@ -117,7 +116,8 @@ def joint_prob(x,mu,sigma,size):
         return math.log(1/size)
 
 if __name__ == "__main__":
-    MNIST = True
+    DISP_MNIST = True
     mndata = MNIST('samples')
     images, labels = mndata.load_training()
+    print(np.array(images).shape)
     k_fold(np.array(images), np.array(labels), 100, 28)

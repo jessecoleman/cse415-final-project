@@ -9,6 +9,7 @@ class DecisionTree:
 
     def __init__(self):
         self.classifier = {}
+        self.reporting = False
 
     # Entropy above current node
     def entropy(self, s):
@@ -104,7 +105,9 @@ class DecisionTree:
                 w.append(1)
             else:
                 w.append(1.5)
-
+            if self.reporting:
+                print("Label:", labels[indexToTest])
+                print("Predicted:", result)
         # Report Results
         print("Percent Correct:",totalCorrect/(len(features)))
         print("Total Correct:",totalCorrect)

@@ -100,10 +100,17 @@ class DecisionTree:
     # Prints the accuracy as % of classifier
     def test(self, features, labels):
         totalCorrect = 0
+        r = []
+        w = []
         for indexToTest in range(len(features)):
-            resultCorrect = self.classify(self.classifier, features[indexToTest]) == labels[indexToTest]
+            result = self.classify(self.classifier, features[indexToTest])
+            r.append(result)
+            resultCorrect = result == labels[indexToTest]
             if resultCorrect:
                 totalCorrect += 1
+                w.append(1)
+            else:
+                w.append(1.5)
 
         # Report Results
         print("Percent Correct: ", end=" ")
@@ -112,6 +119,8 @@ class DecisionTree:
         print(totalCorrect)
         print("Total Tested ", end=" ")
         print(len(features))
+
+        return r, w
 
 # PCA
 def reduceDim(data, small=None):

@@ -51,7 +51,7 @@ class NaiveBayesClassifier:
                 c_mu = mean[c]
                 c_sig = std[c]
                 c_size = size[c]
-                prior = c_size/len(testing_labels)
+                prior = c_size/testing_labels.shape[0]
                 # compute joint probability
                 with np.errstate(divide='ignore'):
                     j_prob = np.nansum(j_prob_v(e, c_mu, c_sig, c_size))
@@ -78,9 +78,9 @@ class NaiveBayesClassifier:
                 plt.pause(0.01)
                 plt.cla()
 
-        print("Accuracy:",correct/len(testing_labels))
+        print("Accuracy:",correct/testing_labels.shape[0])
         print("Total correct:",correct)
-        print("Total tested:",len(testing_labels))
+        print("Total tested:",testing_labels.shape[0])
         return r, w
 
 def joint_prob(x,mu,sigma,size):

@@ -3,6 +3,8 @@
 # CSE415, Final Project
 # Spring 2017
 
+# data taken from https://www.kaggle.com/uciml/breast-cancer-wisconsin-data
+
 import pandas as pd
 import numpy as np
 from NaiveBayesClassifier import NaiveBayesClassifier as nbc

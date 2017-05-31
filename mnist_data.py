@@ -24,7 +24,10 @@ if __name__ == '__main__':
     # include these two lines to see visual display of digits
     n.disp_mnist = True
     n.images = testing_data
-    training_data = PCA.reduceDim(training_data, 28)
-    testing_data = PCA.reduceDim(testing_data)
+
+    if str(type(n)) == "<class 'NaiveBayesClassifier.NaiveBayesClassifier'>":
+        training_data = PCA.reduceDim(training_data, 28)
+        testing_data = PCA.reduceDim(testing_data)
+
     n.train(training_data, training_labels)
     n.test(testing_data, testing_labels)

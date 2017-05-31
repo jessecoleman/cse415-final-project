@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from NaiveBayesClassifier import NaiveBayesClassifier as nbc
 from DecisionTree import DecisionTree as dt
+<<<<<<< HEAD
 
 W = None
 
@@ -17,7 +18,6 @@ def reduceDim(data, small=None):
 
 
 data = pd.read_csv("data.csv")
-
 labels = np.array(data.ix[1:,1])
 data = np.array(data.ix[1:,2:32])
 
@@ -31,13 +31,13 @@ training_labels = labels[mask]
 testing_data = data[np.invert(mask)]
 testing_labels = labels[np.invert(mask)]
 
-#print(testing_data.shape)
-print(training_data.shape)
-print(training_labels.shape)
-
 c1 = nbc()
-c2 = dt()
 reduceDim(training_data, 12)
 reduceDim(testing_data)
 c1.train(training_data, training_labels)
 c1.test(testing_data, testing_labels)
+c2 = dt()
+c2.train(training_data, training_labels)
+c2.test(testing_data, testing_labels)
+
+

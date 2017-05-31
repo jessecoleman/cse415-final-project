@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 class NaiveBayesClassifier:
 
     def __init__(self):
-        self.DISP_MNIST = False
-        self.REPORTING = True
+        self.disp_mnist = False
+        self.reporting = False
         self.mean = None
         self.std = None
         self.size = None
@@ -66,20 +66,21 @@ class NaiveBayesClassifier:
                 correct += 1
                 w.append(1)
             else:
-                w.append(1.5)
-            if self.DISP_MNIST:
-                plt.title("Label is "+s_label+", Predicted "+max_label)
-                pixels = np.array(images[i],dtype="uint8").reshape((28,28))
+                w.append(2)
+            if self.reporting:
+                print("Label: ",s_label)
+                print("Predicted: ",max_label)
+            if self.disp_mnist:
+                plt.title("Label is "+str(s_label)+", Predicted "+str(max_label))
+                pixels = np.array(self.images[i],dtype="uint8").reshape((28,28))
                 plt.imshow(pixels,cmap='gray')
                 plt.draw()
                 plt.pause(0.01)
-            if self.REPORTING:
-                print("Label: ",s_label)
-                print("Predicted: ",max_label)
-            
-        print("percent correct:",correct/len(testing_labels))
-        print("total correct:",correct)
-        print("total tested:",len(testing_labels))
+                plt.cla()
+
+        print("Accuracy:",correct/len(testing_labels))
+        print("Total correct:",correct)
+        print("Total tested:",len(testing_labels))
         return r, w
 
 def joint_prob(x,mu,sigma,size):

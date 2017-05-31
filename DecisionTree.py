@@ -1,15 +1,17 @@
-# Cole Chamberlin, Ishan Saksena
+# Cole Chamb2in, Ishan Saksena
 # Decision Tree Classifier
 # CSE415, Final Project
 # Spring 2017
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 class DecisionTree:
 
     def __init__(self):
-        self.classifier = {}
         self.reporting = False
+        self.classifier = {}
+        self.images = None
 
     # Entropy above current node
     def entropy(self, s):
@@ -99,19 +101,27 @@ class DecisionTree:
         for indexToTest in range(len(features)):
             result = self.classify(self.classifier, features[indexToTest])
             r.append(result)
-            resultCorrect = result == labels[indexToTest]
+            resultCorrect = (result == labels[indexToTest])
             if resultCorrect:
                 totalCorrect += 1
                 w.append(1)
             else:
-                w.append(1.5)
+                w.append(2)
             if self.reporting:
                 print("Label:", labels[indexToTest])
                 print("Predicted:", result)
+            if self.disp_mnist:
+                plt.title("Label is "+labels[indexToTest]+", Predicted "+result)
+                pixels = np.array(images[i],dtype="uint8").reshape((28,28))
+                plt.imshow(pixels,cmap='gray')
+                plt.draw()
+                plt.pause(0.01)
+                plt.cla()
+
         # Report Results
-        print("Percent Correct:",totalCorrect/(len(features)))
-        print("Total Correct:",totalCorrect)
-        print("Total Tested ",len(features))
+        print("Accuracy:",totalCorrect/(len(features)))
+        print("Total correct:",totalCorrect)
+        print("Total tested ",len(features))
         return r, w
 
 # Run the classifier with different data sets

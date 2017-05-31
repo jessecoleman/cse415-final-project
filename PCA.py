@@ -15,10 +15,7 @@ def reduceDim(data, small=None):
         eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
         eig_pairs.sort(key=lambda x: x[0], reverse=True)
         W = np.matrix([eig_pairs[i][1] for i in range(small)])
-    if W == None:
-        print("please specify a dimension first")
-    else:
-        return W.dot(data.T).T.real
+    return W.dot(data.T).T.real
 
 def trainTestSplit(data, labels, split):
     mask = np.ones(data.shape[0], dtype=bool)

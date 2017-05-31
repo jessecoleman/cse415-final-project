@@ -43,7 +43,10 @@ class DecisionTree:
 
         # We calculate a weighted average of the entropy
         for p, v in zip(freqs, val):
-            res -= p * self.entropy(y[x == v])
+            try:
+                res -= p * self.entropy(y[x == v])
+            except:
+                print(x == v)
 
         return res
 
@@ -126,37 +129,26 @@ if __name__ == "__main__":
     dt = DecisionTree()
 
     # #
-    # Load 2016-us-election data
-    # Source: https://www.kaggle.com/benhamner/2016-us-election
+    # # Load MNIST data set
+    # # Images of size 28, 28
     # #
-    # with open('2016-us-election/county_facts.csv', 'r') as csvfile:
-    #     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-    #     for row in spamreader:
-    #         print(', '.join(row))
-
+    # mndata = MNIST('samples')
+    # images, labels = mndata.load_training()
+    # images = np.array(images)
+    # labels = np.array(labels)
     #
-    # Load MNIST data set
-    # Images of size 28, 28
+    # indicesToTrain = 800
+    # indicesToTestUntil = 1000
+    # images_training = images[0:indicesToTrain]
+    # labels_training = labels[0:indicesToTrain]
     #
-    mndata = MNIST('samples')
-    images, labels = mndata.load_training()
-    images = np.array(images)
-    labels = np.array(labels)
-
-    indicesToTrain = 800
-    indicesToTestUntil = 1000
-    images_training = images[0:indicesToTrain]
-    labels_training = labels[0:indicesToTrain]
-
-    images_testing = images[indicesToTrain:indicesToTestUntil]
-    labels_testing = labels[indicesToTrain:indicesToTestUntil]
-
-    #images_training = reduceDim(images_training, 28)
-    #images_testing = reduceDim(images_testing)
-    # #pprint(classifier)
-    # #print(classify(classifier, images_training[1]) == labels_training[1])
-    dt.train(images_training, labels_training)
-    dt.test(images_testing, labels_testing)
+    # images_testing = images[indicesToTrain:indicesToTestUntil]
+    # labels_testing = labels[indicesToTrain:indicesToTestUntil]
+    #
+    # #images_training = reduceDim(images_training, 28)
+    # #images_testing = reduceDim(images_testing)
+    # dt.train(images_training, labels_training)
+    # dt.test(images_testing, labels_testing)
 
 
     # #
@@ -175,6 +167,5 @@ if __name__ == "__main__":
     # for i in range(len(X)):
     #      pprint(dt.classify(classifier, X[i]) == y[i])
 
-    # Iris example
 
     pass

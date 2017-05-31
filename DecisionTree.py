@@ -13,6 +13,10 @@ from sklearn.datasets import load_iris
 W = None
 
 class DecisionTree:
+
+    def __init__(self):
+        self.classifier = {}
+
     # Entropy above current node
     def entropy(self, s):
         res = 0
@@ -48,7 +52,7 @@ class DecisionTree:
         return len(set(s)) == 1
 
     # Split remaining cases based on information gain
-    def recursive_split(self, x, y):
+    def train(self, x, y):
         # Return if pure or empty
         if self.is_pure(y) or len(y) == 0:
             return y
@@ -65,18 +69,16 @@ class DecisionTree:
         # Split using the selected attribute
         sets = self.partition(x[:, selected_attr])
 
-        classifier = {}
         for k, v in sets.items():
             y_subset = y.take(v, axis=0)
             x_subset = x.take(v, axis=0)
 
-            subclassifier = self.recursive_split(x_subset, y_subset)
+            subclassifier = self.train(x_subset, y_subset)
 
-            if selected_attr not in classifier:
-                classifier[selected_attr] = {k: subclassifier}
+            if selected_attr not in self.classifier:
+                self.classifier[selected_attr] = {k: subclassifier}
             else:
-                classifier[selected_attr][k] = subclassifier
-        return classifier
+                self.classifier[selected_attr][k] = subclassifier
 
     # Traverse classifier tree and return class
     def classify(self, classifier, testcase):
@@ -93,10 +95,10 @@ class DecisionTree:
             return self.classify(classifier[key][value], testcase)
 
     # Prints the accuracy as % of classifier
-    def test(self, features, labels, clf):
+    def test(self, features, labels):
         totalCorrect = 0
         for indexToTest in range(len(features)):
-            resultCorrect = self.classify(clf, features[indexToTest]) == labels[indexToTest]
+            resultCorrect = self.classify(self.classifier, features[indexToTest]) == labels[indexToTest]
             if resultCorrect:
                 totalCorrect += 1
 
@@ -141,22 +143,20 @@ if __name__ == "__main__":
     images = np.array(images)
     labels = np.array(labels)
 
-    # k_fold(images, labels, 100, 28)
-
-    indicesToTrain = 500
-    indicesToTestUntil = 600
+    indicesToTrain = 800
+    indicesToTestUntil = 1000
     images_training = images[0:indicesToTrain]
     labels_training = labels[0:indicesToTrain]
 
     images_testing = images[indicesToTrain:indicesToTestUntil]
     labels_testing = labels[indicesToTrain:indicesToTestUntil]
 
-    images_training = reduceDim(images_training, 28)
-    images_testing = reduceDim(images_testing)
-    classifier = dt.recursive_split(images_training, labels_training)
+    #images_training = reduceDim(images_training, 28)
+    #images_testing = reduceDim(images_testing)
     # #pprint(classifier)
     # #print(classify(classifier, images_training[1]) == labels_training[1])
-    dt.test(images_testing, labels_testing, classifier)
+    dt.train(images_training, labels_training)
+    dt.test(images_testing, labels_testing)
 
 
     # #
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     # y = np.array([0, 0, 0, 1, 1, 0])
     #
     # X = np.array([x1, x2, x3]).T
-    # classifier = dt.recursive_split(X, y)
+    # classifier = dt.train(X, y)
     # print()
     # print("The classifier is ")
     # pprint(classifier)

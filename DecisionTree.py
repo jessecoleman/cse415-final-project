@@ -3,14 +3,7 @@
 # CSE415, Final Project
 # Spring 2017
 
-import csv
-from mnist import MNIST
-
 import numpy as np
-from pprint import pprint
-from sklearn.datasets import load_iris
-
-W = None
 
 class DecisionTree:
 
@@ -113,68 +106,11 @@ class DecisionTree:
                 w.append(1.5)
 
         # Report Results
-        print("Percent Correct: ", end=" ")
-        print(float(totalCorrect) / float(len(features)))
-        print("Total Correct: ", end=" ")
-        print(totalCorrect)
-        print("Total Tested ", end=" ")
-        print(len(features))
-
+        print("Percent Correct:",totalCorrect/(len(features))
+        print("Total Correct:",totalCorrect)
+        print("Total Tested ",len(features))
         return r, w
-
-# PCA
-def reduceDim(data, small=None):
-    global W
-    if small != None:
-        cov_mat = np.cov(data, rowvar=False)
-        eig_val, eig_vec = np.linalg.eig(cov_mat)
-        eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
-        eig_pairs.sort(key=lambda x: x[0], reverse=True)
-        W = np.matrix([eig_pairs[i][1] for i in range(small)])
-    return W.dot(data.T).T.real
 
 # Run the classifier with different data sets
 if __name__ == "__main__":
-    dt = DecisionTree()
-
-    # #
-    # # Load MNIST data set
-    # # Images of size 28, 28
-    # #
-    # mndata = MNIST('samples')
-    # images, labels = mndata.load_training()
-    # images = np.array(images)
-    # labels = np.array(labels)
-    #
-    # indicesToTrain = 800
-    # indicesToTestUntil = 1000
-    # images_training = images[0:indicesToTrain]
-    # labels_training = labels[0:indicesToTrain]
-    #
-    # images_testing = images[indicesToTrain:indicesToTestUntil]
-    # labels_testing = labels[indicesToTrain:indicesToTestUntil]
-    #
-    # #images_training = reduceDim(images_training, 28)
-    # #images_testing = reduceDim(images_testing)
-    # dt.train(images_training, labels_training)
-    # dt.test(images_testing, labels_testing)
-
-
-    # #
-    # # Original example
-    # #
-    # x1 = [0, 1, 1, 2, 2, 2]
-    # x2 = [0, 0, 1, 1, 1, 0]
-    # x3 = [0, 0, 3, 4, 5, 0]
-    # y = np.array([0, 0, 0, 1, 1, 0])
-    #
-    # X = np.array([x1, x2, x3]).T
-    # classifier = dt.train(X, y)
-    # print()
-    # print("The classifier is ")
-    # pprint(classifier)
-    # for i in range(len(X)):
-    #      pprint(dt.classify(classifier, X[i]) == y[i])
-
-
     pass

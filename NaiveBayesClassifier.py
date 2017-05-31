@@ -9,12 +9,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-DISP_MNIST = False
-REPORTING = True
-W = None
-
 class NaiveBayesClassifier:
+
     def __init__(self):
+        self.DISP_MNIST = False
+        self.REPORTING = True
         self.mean = None
         self.std = None
         self.size = None
@@ -68,46 +67,20 @@ class NaiveBayesClassifier:
                 w.append(1)
             else:
                 w.append(1.5)
-            if DISP_MNIST:
+            if self.DISP_MNIST:
                 plt.title("Label is "+s_label+", Predicted "+max_label)
                 pixels = np.array(images[i],dtype="uint8").reshape((28,28))
                 plt.imshow(pixels,cmap='gray')
                 plt.draw()
                 plt.pause(0.01)
-            if REPORTING:
+            if self.REPORTING:
                 print("Label: ",s_label)
                 print("Predicted: ",max_label)
             
-        print("accuracy: ",correct/len(testing_labels))
+        print("percent correct:",correct/len(testing_labels))
+        print("total correct:",correct)
+        print("total tested:",len(testing_labels))
         return r, w
-
-def k_fold(data, labels, k_folds, dim_red=False):
-    fold_len = data.shape[0] // k_folds
-    for k in range(k_folds):
-        mask = np.ones(len(data),np.bool)
-        mask[k*fold_len:(k+1)*fold_len] = 0
-        # training split
-        training_set = data[mask]
-        training_labels = labels[mask]
-        # testing split
-        testing_set = data[np.invert(mask)]
-        testing_labels = labels[np.invert(mask)]
-        # reduce dimension
-        if dim_red > 0:
-            training_set = reduceDim(training_set, dim_red)
-            testing_set = reduceDim(testing_set)
-        train(training_set, training_labels)
-        test(testing_set, testing_labels)
-
-def reduceDim(data, small=None):
-    global W
-    if small != None:
-        cov_mat = np.cov(data, rowvar=False)
-        eig_val, eig_vec = np.linalg.eig(cov_mat)
-        eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
-        eig_pairs.sort(key=lambda x: x[0], reverse=True)
-        W = np.matrix([eig_pairs[i][1] for i in range(small)])
-    return W.dot(data.T).T.real
 
 def joint_prob(x,mu,sigma,size):
     if sigma==0 and mu==x: return 0.0
@@ -115,10 +88,3 @@ def joint_prob(x,mu,sigma,size):
         return math.log(stats.norm(mu,sigma).pdf(x))
     except:
         return math.log(1/size)
-
-if __name__ == "__main__":
-    DISP_MNIST = True
-    mndata = MNIST('samples')
-    images, labels = mndata.load_training()
-    print(np.array(images).shape)
-    k_fold(np.array(images), np.array(labels), 100, 28)

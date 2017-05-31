@@ -8,6 +8,9 @@ from mnist import MNIST
 
 import numpy as np
 from pprint import pprint
+from sklearn.datasets import load_iris
+
+W = None
 
 class DecisionTree:
     # Entropy above current node
@@ -106,16 +109,15 @@ class DecisionTree:
         print(len(features))
 
 # PCA
-def reduceDim(data, small):
+def reduceDim(data, small=None):
     global W
-    cov_mat = np.cov(data, rowvar=False)
-    eig_val, eig_vec = np.linalg.eig(cov_mat)
-    eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
-    eig_pairs.sort(key=lambda x: x[0], reverse=True)
-    W = np.matrix([eig_pairs[i][1] for i in range(small)])
-    transformed = W.dot(data.T).T
-    return transformed.real
-
+    if small != None:
+        cov_mat = np.cov(data, rowvar=False)
+        eig_val, eig_vec = np.linalg.eig(cov_mat)
+        eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
+        eig_pairs.sort(key=lambda x: x[0], reverse=True)
+        W = np.matrix([eig_pairs[i][1] for i in range(small)])
+    return W.dot(data.T).T.real
 
 # Run the classifier with different data sets
 if __name__ == "__main__":
@@ -139,7 +141,7 @@ if __name__ == "__main__":
     images = np.array(images)
     labels = np.array(labels)
 
-    images = reduceDim(images, 28)
+    # k_fold(images, labels, 100, 28)
 
     indicesToTrain = 500
     indicesToTestUntil = 600
@@ -149,9 +151,11 @@ if __name__ == "__main__":
     images_testing = images[indicesToTrain:indicesToTestUntil]
     labels_testing = labels[indicesToTrain:indicesToTestUntil]
 
+    images_training = reduceDim(images_training, 28)
+    images_testing = reduceDim(images_testing)
     classifier = dt.recursive_split(images_training, labels_training)
-    #pprint(classifier)
-    #print(classify(classifier, images_training[1]) == labels_training[1])
+    # #pprint(classifier)
+    # #print(classify(classifier, images_training[1]) == labels_training[1])
     dt.test(images_testing, labels_testing, classifier)
 
 
@@ -170,5 +174,7 @@ if __name__ == "__main__":
     # pprint(classifier)
     # for i in range(len(X)):
     #      pprint(dt.classify(classifier, X[i]) == y[i])
+
+    # Iris example
 
     pass

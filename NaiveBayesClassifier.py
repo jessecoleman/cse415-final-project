@@ -3,7 +3,7 @@
 # CSE415, Final Project
 # Spring 2017
 
-from mnist import MNIST
+#from mnist import MNIST
 import scipy.stats as stats
 import numpy as np
 import math
@@ -24,7 +24,7 @@ class NaiveBayesClassifier:
     def train(self, training_set, labels):
         global mean, std, size, cats
         # categories
-        cats = {i:[] for i in np.unique(labels)}
+        cats = {l:[] for l in np.unique(labels)}
         mean = {}
         std = {}
         size = {}
@@ -98,13 +98,14 @@ def k_fold(data, labels, k_folds, dim_red=False):
         train(training_set, training_labels)
         test(testing_set, testing_labels)
 
-def reduceDim(data, small):
+def reduceDim(data, small=None):
     global W
-    cov_mat = np.cov(data, rowvar=False)
-    eig_val, eig_vec = np.linalg.eig(cov_mat)
-    eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
-    eig_pairs.sort(key=lambda x: x[0], reverse=True)
-    W = np.matrix([eig_pairs[i][1] for i in range(small)])
+    if small == None:
+        cov_mat = np.cov(data, rowvar=False)
+        eig_val, eig_vec = np.linalg.eig(cov_mat)
+        eig_pairs = [(np.abs(eig_val[i]), eig_vec[:,i]) for i in range(len(eig_val))]
+        eig_pairs.sort(key=lambda x: x[0], reverse=True)
+        W = np.matrix([eig_pairs[i][1] for i in range(small)])
     transformed = W.dot(data.T).T
     return transformed.real
 
@@ -113,7 +114,7 @@ def joint_prob(x,mu,sigma,size):
     try:
         return math.log(stats.norm(mu,sigma).pdf(x))
     except:
-        return math.log(1/(size*1000000000000))
+        return math.log(1/size)
 
 if __name__ == "__main__":
     MNIST = True

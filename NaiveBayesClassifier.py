@@ -37,6 +37,9 @@ class NaiveBayesClassifier:
             size[i] = class_data.shape[0]
                   
     def test(self, testing_set, testing_labels):
+        dim = len(np.unique(testing_labels))
+        heatmap = np.zeros((dim,dim), dtype=int)
+        idx = {np.unique(testing_labels)[i]:i for i in range(dim)}
         # count number of correct predictions
         correct = 0
         w = []
@@ -60,6 +63,8 @@ class NaiveBayesClassifier:
                 if prob > max_prob:
                     max_label = c
                     max_prob = prob
+            heatmap[idx[s_label],idx[max_label]] += 1
+            print(heatmap)
             # if prediction was correct
             r.append(max_label)
             if s_label == max_label: 
@@ -81,6 +86,20 @@ class NaiveBayesClassifier:
         print("Accuracy:",correct/testing_labels.shape[0])
         print("Total correct:",correct)
         print("Total tested:",testing_labels.shape[0])
+        # normalize matrix by column
+        h_sums = heatmap.sum(axis=0)
+        h2 = np.zeros((heatmap.shape[0], heatmap.shape[1]))
+        for i, (row, row_sum) in enumerate(zip(heatmap, h_sums)):
+            h2[i,:] = row / row_sum
+        print(h2)
+        col_labels = idx.keys()
+        row_labels = idx.keys()
+        fig, ax = plt.subplots()
+        heat = ax.pcolor(h2, cmap=plt.cm.Blues)
+        ax.set_xticks(np.arange(0.5,heatmap.shape[0]), minor=False)
+        ax.set_yticks(np.arange(0.5,heatmap.shape[1]), minor=False)
+        ax.set_ticklabels(range(10))
+        plt.show()
         return r, w
 
 def joint_prob(x,mu,sigma,size):

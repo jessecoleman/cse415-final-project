@@ -89,16 +89,18 @@ class NaiveBayesClassifier:
         # normalize matrix by column
         h_sums = heatmap.sum(axis=0)
         h2 = np.zeros((heatmap.shape[0], heatmap.shape[1]))
-        for i, (row, row_sum) in enumerate(zip(heatmap, h_sums)):
+        for i, (row, row_sum) in enumerate(zip(heatmap.T, h_sums)):
             h2[i,:] = row / row_sum
         print(h2)
         col_labels = idx.keys()
         row_labels = idx.keys()
         fig, ax = plt.subplots()
         heat = ax.pcolor(h2, cmap=plt.cm.Blues)
+        print(heatmap.shape)
         ax.set_xticks(np.arange(0.5,heatmap.shape[0]), minor=False)
         ax.set_yticks(np.arange(0.5,heatmap.shape[1]), minor=False)
-        ax.set_ticklabels(range(10))
+        ax.set_xticklabels(list(range(10)), minor=False)
+        ax.set_yticklabels(list(range(10)), minor=False)
         plt.show()
         return r, w
 

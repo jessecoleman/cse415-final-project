@@ -33,4 +33,4 @@ if __name__ == '__main__':
 
     n.train(training_data, training_labels)
     print(testing_data.shape)
-    n.test(testing_data[:20], testing_labels[:20])
+    n.test(testing_data, testing_labels)
